@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You | A Special Celebration</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>" type="image/svg+xml">
+    <style>
+        /* Core Variables */
+        :root {
+            --bg-color: #0a0a0a;
+            --bg-alt: #151515;
+            --primary: #f1245b;
+            --primary-alt: #ff6b97;
+            --secondary: #2ec4b6;
+            --accent: #f72585;
+            --text: #ffffff;
+            --text-muted: #b0b0b0;
+            --dark: #121212;
+            --border-radius: 0.5rem;
+            --card-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.8);
+            --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-alt);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: var(--primary-alt);
+        }
+        
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text);
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            margin: 0 0 1rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+        }
+        
+        h2 {
+            font-size: clamp(1.75rem, 3vw, 2.5rem);
+        }
+        
+        h3 {
+            font-size: clamp(1.25rem, 2vw, 1.75rem);
+        }
+        
+        p {
+            margin: 0 0 1rem;
+        }
+        
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        a:hover {
+            color: var(--primary-alt);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .section {
+            padding: 5rem 0;
+            position: relative;
+        }
+        
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-content {            display: flex;            align-items: center;            justify-content: center;            flex-direction: column;        }                .play-button {            margin-top: 2rem;            background: linear-gradient(45deg, var(--primary), var(--accent));            border: none;            color: white;            padding: 12px 30px;            border-radius: 50px;            font-size: 1.2rem;            cursor: pointer;            display: flex;            align-items: center;            justify-content: center;            gap: 10px;            box-shadow: 0 5px 15px rgba(247, 37, 133, 0.4);            transition: all 0.3s ease;        }                .play-button:hover {            transform: scale(1.05);            box-shadow: 0 8px 20px rgba(247, 37, 133, 0.6);        }                .play-icon {            font-size: 1.4rem;        }
+        
+        .heart-loader {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            margin-bottom: 2rem;
+            animation: heartbeat 1s infinite;
+        }
+        
+        .heart-loader:before,
+        .heart-loader:after {
+            position: absolute;
+            content: "";
+            width: 26px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 50px 50px 0 0;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+        
+        .heart-loader:after {
+            left: 10px;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+        
+        @keyframes heartbeat {
+            0% {
+                transform: scale(0.8);
+            }
+            50% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(0.8);
+            }
+        }
+        
+        /* Header & Hero Section */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 0;
+            background-color: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            transition: var(--transition);
+        }
+        
+        .header.scrolled {
+            padding: 1rem 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .logo span {
+            color: var(--text);
+        }
+        
+        .header-counter {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .counter-item {
+            text-align: center;
+            min-width: 60px;
+        }
+        
+        .counter-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .counter-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(247, 37, 133, 0.1) 0%, rgba(10, 10, 10, 0) 70%);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+        
+        .hero-title {
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .hero-title::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 4px;
+            bottom: -0.5rem;
+            left: 0;
+            background: linear-gradient(90deg, var(--primary), var(--primary-alt));
+            border-radius: 4px;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        
+        .hero-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            border-radius: var(--border-radius);
+            color: var(--text);
+            font-weight: 700;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(247, 37, 133, 0.3);
+        }
+        
+        .hero-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(247, 37, 133, 0.4);
+        }
+        
+        /* Message Section */
+        .message-section {
+            background-color: var(--bg-alt);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .message-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .message-image {
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            height: 500px;
+        }
+        
+        .message-image-bg {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            opacity: 0.8;
+            position: absolute;
+        }
+        
+        .message-heart {
+            position: absolute;
+            font-size: 10rem;
+            color: rgba(255, 255, 255, 0.2);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .message-content {
+            position: relative;
+        }
+        
+        .message-title {
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .message-title::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            bottom: -0.5rem;
+            left: 0;
+            background: linear-gradient(90deg, var(--primary), transparent);
+            border-radius: 4px;
+        }
+        
+        .message-text {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Gallery Section */
+        .gallery-section {
+            background-color: var(--bg-color);
+        }
+        
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .gallery-title {
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .gallery-title::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            bottom: -0.5rem;
+            left: 25%;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            border-radius: 4px;
+        }
+        
+        .gallery-description {
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--text-muted);
+        }
+        
+        .wishes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .wish-item {
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            min-height: 200px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .wish-item:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+        
+        .wish-item:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(247, 37, 133, 0.1), transparent 80%);
+            z-index: 0;
+        }
+        
+        .wish-item:nth-child(1):before {
+            background: linear-gradient(135deg, rgba(247, 37, 133, 0.15), transparent 80%);
+        }
+        
+        .wish-item:nth-child(2):before {
+            background: linear-gradient(135deg, rgba(46, 196, 182, 0.15), transparent 80%);
+        }
+        
+        .wish-item:nth-child(3):before {
+            background: linear-gradient(135deg, rgba(255, 107, 151, 0.15), transparent 80%);
+        }
+        
+        .wish-item:nth-child(4):before {
+            background: linear-gradient(135deg, rgba(36, 209, 220, 0.15), transparent 80%);
+        }
+        
+        .wish-emoji {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .wish-title {
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .wish-message {
+            color: var(--text-muted);
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Internet Birthday Banner */
+        .internet-birthday {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 1rem 1.5rem;
+            box-shadow: var(--card-shadow);
+            z-index: 90;
+            border: 1px solid var(--primary);
+            max-width: 300px;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+        
+        .internet-birthday-title {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .internet-birthday-message {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(247, 37, 133, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(247, 37, 133, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(247, 37, 133, 0);
+            }
+        }
+        
+        /* Enhanced Hearts Animation */
+        .hearts-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .floating-heart {
+            position: absolute;
+            color: var(--primary);
+            opacity: 0;
+            animation: floatUp 10s linear forwards;
+        }
+        
+        .floating-heart-large {
+            animation: floatUpLarge 15s linear forwards;
+            text-shadow: 0 0 10px rgba(247, 37, 133, 0.5);
+        }
+        
+        .floating-heart-small {
+            animation: floatUpSmall 8s linear forwards;
+        }
+        
+        .floating-heart-medium {
+            animation: floatUpMedium 12s linear forwards;
+        }
+        
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0.5) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.1;
+            }
+            30% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            70% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.1;
+            }
+            100% {
+                transform: translateY(-20vh) scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes floatUpLarge {
+            0% {
+                transform: translateY(100vh) translateX(-10px) scale(0.8) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.15;
+            }
+            50% {
+                opacity: 0.3;
+                transform: translateY(50vh) translateX(20px) scale(1.5) rotate(180deg);
+            }
+            100% {
+                transform: translateY(-20vh) translateX(-10px) scale(2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes floatUpSmall {
+            0% {
+                transform: translateY(100vh) translateX(10px) scale(0.3) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.2;
+            }
+            60% {
+                opacity: 0.4;
+                transform: translateY(40vh) translateX(-15px) scale(0.6) rotate(180deg);
+            }
+            100% {
+                transform: translateY(-20vh) translateX(10px) scale(0.8) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes floatUpMedium {
+            0% {
+                transform: translateY(100vh) translateX(-5px) scale(0.5) rotate(0deg);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.25;
+            }
+            55% {
+                opacity: 0.35;
+                transform: translateY(45vh) translateX(15px) scale(1) rotate(180deg);
+            }
+            100% {
+                transform: translateY(-20vh) translateX(-5px) scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--primary-alt));
+            z-index: 1000;
+            transition: width 0.2s ease;
+            box-shadow: 0 0 10px rgba(247, 37, 133, 0.7);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+            background-color: var(--bg-color);
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-alt);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--primary), var(--primary-alt));
+            border-radius: 10px;
+            border: 2px solid var(--bg-alt);
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-alt);
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--dark);
+            padding: 3rem 0 0 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 2rem;
+        }
+        
+        .footer-content {
+            text-align: center;
+            padding-bottom: 2rem;
+        }
+        
+        .footer-love {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .dominant-footer {
+            background: linear-gradient(to right, rgba(241, 36, 91, 0.2), rgba(255, 107, 151, 0.2));
+            padding: 1.5rem 0;
+            border-top: 2px solid var(--primary);
+            text-align: center;
+        }
+        
+        .footer-copyright {
+            color: var(--text);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            font-weight: 500;
+            text-transform: uppercase;
+            text-shadow: 0 0 5px rgba(247, 37, 133, 0.5);
+        }
+        
+        /* Media Queries */
+        @media (max-width: 992px) {
+            .message-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .message-image {
+                height: 300px;
+            }
+            
+            .countdown-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .section {
+                padding: 3rem 0;
+            }
+            
+            .header-counter {
+                display: none;
+            }
+            
+            .wishes-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .diary {
+                height: 400px;
+            }
+            
+            .diary-page {
+                padding: 2rem;
+            }
+            
+            .diary-page-content {
+                max-width: 100%;
+            }
+            
+            .diary-page-title {
+                font-size: 1.3rem;
+            }
+            
+            .diary-page-text {
+                font-size: 1rem;
+            }
+            
+            .countdown-section {
+                padding: 3rem 0;
+            }
+            
+            .countdown-container {
+                padding: 2rem 1rem;
+            }
+            
+            .countdown-grid {
+                gap: 0.8rem;
+            }
+            
+            .countdown-item {
+                padding: 1rem 0.5rem;
+                min-height: 100px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .wishes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .wish-item {
+                height: 300px;
+            }
+            
+            .countdown-grid {
+                grid-template-columns: 1fr 1fr !important;
+                max-width: 90% !important;
+                margin: 0 auto !important;
+            }
+            
+            .countdown-container {
+                max-width: 100% !important;
+                overflow: hidden !important;
+                box-sizing: border-box !important;
+                padding: 2rem 0.5rem !important;
+            }
+            
+            .countdown-item {
+                width: 100% !important;
+                font-size: 0.9rem !important;
+                padding: 0.8rem 0.2rem !important;
+                margin: 0 0 0.5rem 0 !important;
+            }
+            
+            .countdown-number {
+                font-size: 1.8rem !important;
+            }
+            
+            .countdown-label {
+                font-size: 0.7rem !important;
+            }
+            
+            .countdown-title {
+                font-size: 1.4rem;
+            }
+            
+            .countdown-subtitle {
+                font-size: 0.9rem;
+                margin-bottom: 2rem;
+            }
+            
+            .diary {
+                height: 350px;
+            }
+            
+            .diary-cover-title {
+                font-size: 1.5rem;
+            }
+            
+            .diary-cover-subtitle {
+                font-size: 1rem;
+            }
+            
+            .diary-page {
+                padding: 1.5rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .hero-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* Extra small screens */
+        @media (max-width: 375px) {
+            .countdown-grid {
+                gap: 0.5rem;
+            }
+            
+            .countdown-item {
+                min-height: 90px;
+                padding: 0.8rem 0.2rem;
+            }
+            
+            .countdown-number {
+                font-size: 1.8rem;
+                margin-bottom: 0.3rem;
+            }
+            
+            .countdown-label {
+                font-size: 0.7rem;
+                letter-spacing: 1px;
+            }
+            
+            .countdown-container {
+                padding: 1.2rem 0.8rem;
+                width: 95%;
+            }
+            
+            .countdown-title {
+                font-size: 1.2rem;
+            }
+            
+            .countdown-subtitle {
+                font-size: 0.8rem;
+                margin-bottom: 1.5rem;
+            }
+        }
+        
+        /* Diary Section */
+        .diary-section {
+            background-color: var(--bg-alt);
+            position: relative;
+            overflow: hidden;
+            padding: 5rem 0;
+        }
+        
+        .diary-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .diary-title {
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .diary-title::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            bottom: -0.5rem;
+            left: 25%;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            border-radius: 4px;
+        }
+        
+        .diary-description {
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--text-muted);
+        }
+        
+        .diary-container {
+            max-width: 800px;
+            margin: 0 auto;
+            perspective: 1500px;
+        }
+        
+        .diary {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            transform-style: preserve-3d;
+            transition: transform 1s ease;
+            cursor: pointer;
+        }
+        
+        .diary.open {
+            transform: rotateY(180deg);
+        }
+        
+        .diary-cover {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #2c2c2c, #1a1a1a);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+        
+        .diary-cover:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23f1245b' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        
+        .diary-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .diary-heart {
+            position: absolute;
+            color: var(--primary);
+            opacity: 0.3;
+            font-size: 1.5rem;
+        }
+        
+        .diary-heart:nth-child(1) {
+            top: 10%;
+            left: 15%;
+            transform: rotate(-15deg);
+            font-size: 2rem;
+        }
+        
+        .diary-heart:nth-child(2) {
+            top: 20%;
+            right: 20%;
+            transform: rotate(10deg);
+        }
+        
+        .diary-heart:nth-child(3) {
+            bottom: 25%;
+            left: 25%;
+            transform: rotate(-5deg);
+            font-size: 1.8rem;
+        }
+        
+        .diary-heart:nth-child(4) {
+            bottom: 15%;
+            right: 15%;
+            transform: rotate(15deg);
+            font-size: 2.2rem;
+        }
+        
+        .diary-heart:nth-child(5) {
+            top: 50%;
+            left: 10%;
+            transform: rotate(-10deg);
+            font-size: 1.7rem;
+        }
+        
+        .diary-heart:nth-child(6) {
+            top: 40%;
+            right: 10%;
+            transform: rotate(5deg);
+            font-size: 1.6rem;
+        }
+        
+        .diary-cover-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .diary-cover-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .diary-ribbon {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            overflow: hidden;
+            z-index: 2;
+        }
+        
+        .diary-ribbon-content {
+            position: absolute;
+            top: 25px;
+            right: -25px;
+            transform: rotate(45deg);
+            width: 150px;
+            background: var(--primary);
+            text-align: center;
+            padding: 5px 0;
+            font-size: 0.9rem;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+        }
+        
+        .diary-pages {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform: rotateY(180deg);
+            backface-visibility: hidden;
+        }
+        
+        .diary-page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+        
+        .diary-page:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(247, 37, 133, 0.05), transparent 80%);
+            z-index: 0;
+        }
+        
+        .diary-page.active {
+            opacity: 1;
+            z-index: 10;
+        }
+        
+        .diary-page-number {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--primary);
+            border-radius: 50%;
+            font-size: 1rem;
+            font-weight: 700;
+            z-index: 2;
+        }
+        
+        .diary-page-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 80%;
+        }
+        
+        .diary-page-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .diary-page-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text);
+        }
+        
+        .diary-page-quote {
+            font-style: italic;
+            margin: 1.5rem 0;
+            padding-left: 1rem;
+            border-left: 3px solid var(--primary);
+            color: var(--text-muted);
+        }
+        
+        .diary-page-signature {
+            font-size: 1.2rem;
+            font-family: 'Brush Script MT', cursive;
+            color: var(--primary);
+            margin-top: 2rem;
+            align-self: flex-end;
+        }
+        
+        .diary-nav {
+            position: absolute;
+            bottom: -70px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .diary.open .diary-nav {
+            opacity: 1;
+        }
+        
+        .diary-nav-btn {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--primary);
+            color: var(--text);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .diary-nav-btn:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .diary-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 20;
+            opacity: 0;
+        }
+        
+        .diary.open .diary-close {
+            opacity: 1;
+        }
+        
+        .diary-close:hover {
+            transform: rotate(90deg);
+        }
+        
+        /* Persistent Message Box */
+        .persistent-message {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            width: 280px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 1.2rem;
+            box-shadow: var(--card-shadow);
+            z-index: 90;
+            border-left: 4px solid var(--primary);
+            transform: translateX(-110%);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        
+        .persistent-message.visible {
+            transform: translateX(0);
+        }
+        
+        .persistent-message-title {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .persistent-message-title svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--primary);
+        }
+        
+        .persistent-message-content {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        
+        .persistent-message-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .persistent-message-close:hover {
+            color: var(--primary);
+        }
+        
+        .persistent-message-toggle {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 91;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+            opacity: 0;
+        }
+        
+        .persistent-message-toggle.visible {
+            opacity: 1;
+        }
+        
+        .persistent-message-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Countdown Section */
+        .countdown-section {
+            background-color: var(--bg-color);
+            position: relative;
+            overflow: hidden;
+            padding: 5rem 0;
+        }
+        
+        .countdown-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(247, 37, 133, 0.08), transparent 70%);
+            z-index: 0;
+        }
+        
+        .countdown-container {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(10, 10, 10, 0.7);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 3rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .countdown-title {
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            background: linear-gradient(90deg, var(--primary), var(--primary-alt));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .countdown-title::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 4px;
+            bottom: -0.5rem;
+            left: 20%;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            border-radius: 4px;
+        }
+        
+        .countdown-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: clamp(0.9rem, 3vw, 1.1rem);
+            padding: 0 10px;
+        }
+        
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+            padding: 0;
+            margin: 0 auto;
+            width: 90%;
+        }
+        
+        .countdown-item {
+            min-height: 110px;
+            margin-bottom: 0.5rem;
+            padding: 1rem 0.3rem;
+            width: 100%;
+        }
+        
+        .countdown-container {
+            padding: 1.5rem 0.7rem;
+            width: 95%;
+        }
+        
+        .countdown-number {
+            position: relative;
+            z-index: 1;
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(247, 37, 133, 0.3);
+        }
+        
+        .countdown-label {
+            position: relative;
+            z-index: 1;
+            font-size: clamp(0.7rem, 2vw, 0.9rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="heart-loader"></div>
+            <p>Loading something special for you...</p>
+            <button id="playButton" class="play-button">
+                <span class="play-icon">▶</span>
+                <span class="play-text">Click to Play Music & Show Website</span>
+            </button>
+            <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--primary-alt); font-style: italic;">Gifted by Misbah to Majesty</p>
+        </div>
+    </div>
+    
+    <!-- Audio Element -->
+    <audio id="birthdayAudio" preload="auto" loop>
+        <source src="happy-birthday-334876.mp3" type="audio/mp3">
+        <!-- Fallback for absolute path if relative doesn't work -->
+        <source src="file:///C:/Users/MALIK%20SAAD/Downloads/cake/happy-birthday-334876.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <!-- Hearts Animation Container -->
+    <div class="hearts-container" id="heartsContainer"></div>
+    
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="#" class="logo">Heart<span>Beat</span></a>
+                <div class="header-counter" id="countdown">
+                    <div class="counter-item">
+                        <div class="counter-number" id="days">00</div>
+                        <div class="counter-label">Days</div>
+                    </div>
+                    <div class="counter-item">
+                        <div class="counter-number" id="hours">00</div>
+                        <div class="counter-label">Hours</div>
+                    </div>
+                    <div class="counter-item">
+                        <div class="counter-number" id="minutes">00</div>
+                        <div class="counter-label">Minutes</div>
+                    </div>
+                    <div class="counter-item">
+                        <div class="counter-number" id="seconds">00</div>
+                        <div class="counter-label">Seconds</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="section hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Happy Birthday Majesty!</h1>
+                <p class="hero-subtitle">To the most amazing person who deserves all the happiness in the world.</p>
+                <a href="#message" class="hero-btn">See Your Special Message</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Message Section -->
+    <section class="section message-section" id="message">
+        <div class="container">
+            <div class="message-container">
+                <div class="message-image">
+                    <div class="message-image-bg"></div>
+                    <div class="message-heart">❤️</div>
+                </div>
+                <div class="message-content">
+                    <h2 class="message-title">A Special Message For You</h2>
+                    <p class="message-text">On this special day, I want to celebrate you and everything wonderful about you! Your kindness, your smile, and the way you make the world brighter just by being in it.</p>
+                    <p class="message-text">Here's to another year of amazing memories, laughter, and all the love you deserve!</p>
+                    <p class="message-text">May your day be filled with love, laughter, and all your favorite things. May this new year of life bring you countless reasons to smile!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Gallery Section -->
+    <section class="section gallery-section" id="memories">
+        <div class="container">
+            <div class="gallery-header">
+                <h2 class="gallery-title">Sweet Wishes</h2>
+                <p class="gallery-description">Heartfelt wishes and thoughts for your special day, each one filled with love and care.</p>
+            </div>
+            <div class="wishes-grid">
+                <div class="wish-item">
+                    <div class="wish-emoji">🌹</div>
+                    <h3 class="wish-title">Cherished Moments</h3>
+                    <p class="wish-message">May your birthday be the start of a year filled with good luck, good health, and much happiness.</p>
+                </div>
+                <div class="wish-item">
+                    <div class="wish-emoji">✨</div>
+                    <h3 class="wish-title">Bright Future</h3>
+                    <p class="wish-message">May your day be as special as you are and the year ahead be filled with endless possibilities.</p>
+                </div>
+                <div class="wish-item">
+                    <div class="wish-emoji">🎀</div>
+                    <h3 class="wish-title">Beautiful Soul</h3>
+                    <p class="wish-message">Wishing a beautiful soul another year of growth, love, and beautiful experiences.</p>
+                </div>
+                <div class="wish-item">
+                    <div class="wish-emoji">💫</div>
+                    <h3 class="wish-title">Endless Dreams</h3>
+                    <p class="wish-message">May all your dreams and wishes come true, and may every day of your life be filled with joy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Countdown Section -->
+    <section class="section countdown-section" id="countdown-section">
+        <div class="container" style="overflow: hidden;">
+            <div class="countdown-container" style="overflow: hidden; max-width: 95%; margin: 0 auto;">
+                <h2 class="countdown-title">Countdown to May 18, 2025</h2>
+                <p class="countdown-subtitle">Every day brings us closer to celebrating this special date with you!</p>
+                <div class="countdown-grid" id="countdownGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; width: 95%; margin: 0 auto;">
+                    <div class="countdown-item" style="min-height: 100px; box-sizing: border-box;">
+                        <div class="countdown-number" id="countdown-days">00</div>
+                        <div class="countdown-label">Days</div>
+                    </div>
+                    <div class="countdown-item" style="min-height: 100px; box-sizing: border-box;">
+                        <div class="countdown-number" id="countdown-hours">00</div>
+                        <div class="countdown-label">Hours</div>
+                    </div>
+                    <div class="countdown-item" style="min-height: 100px; box-sizing: border-box;">
+                        <div class="countdown-number" id="countdown-minutes">00</div>
+                        <div class="countdown-label">Min</div>
+                    </div>
+                    <div class="countdown-item" style="min-height: 100px; box-sizing: border-box;">
+                        <div class="countdown-number" id="countdown-seconds">00</div>
+                        <div class="countdown-label">Sec</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+    
+    <script>
+        // DOM Elements
+        const loader = document.getElementById('loader');
+        const header = document.getElementById('header');
+        const heartsContainer = document.getElementById('heartsContainer');
+        const countdownEl = document.getElementById('countdown');
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        const playButton = document.getElementById('playButton');
+        const birthdayAudio = document.getElementById('birthdayAudio');
+        
+        // Play Button Functionality
+        playButton.addEventListener('click', function() {
+            console.log("Play button clicked");
+            
+            // Try to play the audio
+            try {
+                birthdayAudio.volume = 0.7;
+                birthdayAudio.play().catch(function(error) {
+                    console.error("Audio playback failed:", error);
+                    alert("Audio playback failed. The site will still load.");
+                });
+            } catch (e) {
+                console.error("Error playing audio:", e);
+            }
+            
+            // Hide loader and show website (this will always work even if audio fails)
+            loader.classList.add('hidden');
+        });
+        
+        // Don't automatically hide loader, wait for button click
+        window.addEventListener('load', function() {
+            console.log("Page loaded, waiting for play button click");
+            // Force the button to be visible and clear any previous state
+            if (playButton) {
+                playButton.style.display = 'flex';
+            }
+        });
+        
+        // Header Scroll Effect
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Countdown Timer
+        function updateCountdown() {
+            const currentDate = new Date();
+            // Set countdown to May 18, 2025
+            const targetDate = new Date('May 18, 2025 00:00:00');
+            
+            const totalSeconds = (targetDate - currentDate) / 1000;
+            
+            if (totalSeconds > 0) {
+                const days = Math.floor(totalSeconds / 3600 / 24);
+                const hours = Math.floor(totalSeconds / 3600) % 24;
+                const minutes = Math.floor(totalSeconds / 60) % 60;
+                const seconds = Math.floor(totalSeconds) % 60;
+                
+                daysEl.innerHTML = formatTime(days);
+                hoursEl.innerHTML = formatTime(hours);
+                minutesEl.innerHTML = formatTime(minutes);
+                secondsEl.innerHTML = formatTime(seconds);
+            } else {
+                countdownEl.innerHTML = '<div style="color: var(--primary); font-weight: 700; padding: 0.5rem;">Happy Birthday Majesty! May your day be filled with joy! ❤️</div>';
+            }
+        }
+        
+        function formatTime(time) {
+            return time < 10 ? `0${time}` : time;
+        }
+        
+        // Initialize countdown
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+        
+        // Create Floating Hearts
+        function createFloatingHearts() {
+            // Heart characters and colors
+            const hearts = ['❤️', '💖', '💕', '💗', '💓', '💘', '💝', '💞', '💟', '💌', '♥️'];
+            const colors = ['#f1245b', '#f72585', '#ff6b97', '#e83a59', '#ff4d6d', '#ff758f', '#ff9fb7'];
+            
+            // Create 50 hearts with delay (increased from 30)
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('floating-heart');
+                    
+                    // Random properties
+                    const heartChar = hearts[Math.floor(Math.random() * hearts.length)];
+                    const size = Math.random() * 40 + 15; // More varied sizes
+                    const left = Math.random() * 100;
+                    const delay = Math.random() * 3; // Reduced delay
+                    const duration = Math.random() * 6 + 7;
+                    
+                    // Random animation type with more variety
+                    const animationType = Math.floor(Math.random() * 4);
+                    if (animationType === 0) {
+                        heart.classList.add('floating-heart-small');
+                    } else if (animationType === 1) {
+                        heart.classList.add('floating-heart-medium');
+                    } else if (animationType === 2) {
+                        heart.classList.add('floating-heart-large');
+                    } else {
+                        // Basic animation but with different opacity
+                        heart.style.opacity = "0.2";
+                    }
+                    
+                    // Apply styles
+                    heart.textContent = heartChar;
+                    heart.style.fontSize = `${size}px`;
+                    heart.style.left = `${left}%`;
+                    heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                    heart.style.animationDelay = `${delay}s`;
+                    heart.style.animationDuration = `${duration}s`;
+                    
+                    // Add to container
+                    heartsContainer.appendChild(heart);
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        heart.remove();
+                    }, (delay + duration) * 1000);
+                    
+                }, i * 200); // More frequent hearts (reduced from 300ms)
+            }
+        }
+        
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Initialize
+        window.addEventListener('load', () => {
+            // Initial hearts
+            createFloatingHearts();
+            
+            // Create hearts more frequently
+            setInterval(createFloatingHearts, 7000); // Reduced from 10000ms to 7000ms
+        });
+        
+        // Dedicated Countdown Timer
+        const countdownDays = document.getElementById('countdown-days');
+        const countdownHours = document.getElementById('countdown-hours');
+        const countdownMinutes = document.getElementById('countdown-minutes');
+        const countdownSeconds = document.getElementById('countdown-seconds');
+        
+        function updateDedicatedCountdown() {
+            if (!countdownDays || !countdownHours || !countdownMinutes || !countdownSeconds) {
+                return; // Skip if elements aren't found
+            }
+            
+            const currentDate = new Date();
+            // Set countdown to May 18, 2025
+            const targetDate = new Date('May 18, 2025 00:00:00');
+            
+            const totalSeconds = (targetDate - currentDate) / 1000;
+            
+            if (totalSeconds > 0) {
+                const days = Math.floor(totalSeconds / 3600 / 24);
+                const hours = Math.floor(totalSeconds / 3600) % 24;
+                const minutes = Math.floor(totalSeconds / 60) % 60;
+                const seconds = Math.floor(totalSeconds) % 60;
+                
+                // Check if elements exist before updating
+                if (countdownDays) countdownDays.textContent = formatTime(days);
+                if (countdownHours) countdownHours.textContent = formatTime(hours);
+                if (countdownMinutes) countdownMinutes.textContent = formatTime(minutes);
+                if (countdownSeconds) countdownSeconds.textContent = formatTime(seconds);
+            } else {
+                const countdownGrid = document.getElementById('countdownGrid');
+                if (countdownGrid) {
+                    countdownGrid.innerHTML = `
+                        <div style="grid-column: span 2; text-align: center; padding: 1rem;">
+                            <div class="countdown-number" style="font-size: 2rem; margin-bottom: 1rem;">Happy Birthday Majesty!</div>
+                            <div style="color: var(--text); font-size: 1.2rem; line-height: 1.6; margin-bottom: 1rem;">
+                                On this special day, may your heart be filled with joy and your life with countless blessings. 
+                                May this new year bring you all the happiness you deserve!
+                            </div>
+                            <div style="color: var(--primary-alt); font-size: 1.5rem; margin-top: 1rem;">❤️ ✨ 🎁 🌹</div>
+                        </div>
+                    `;
+                }
+                
+                // Update the title and subtitle
+                const countdownTitle = document.querySelector('.countdown-title');
+                const countdownSubtitle = document.querySelector('.countdown-subtitle');
+                
+                if (countdownTitle) {
+                    countdownTitle.innerHTML = 'Today Is Your Day, Majesty!';
+                }
+                
+                if (countdownSubtitle) {
+                    countdownSubtitle.innerHTML = 'Wishing you a wonderful birthday Majesty, filled with love, laughter, and beautiful memories!';
+                }
+            }
+        }
+        
+        // Initialize dedicated countdown
+        updateDedicatedCountdown();
+        // Run every 500ms to ensure smoother updates on mobile
+        setInterval(updateDedicatedCountdown, 500);
+        
+        // Enhanced Mobile Experience
+        const enhanceMobileExperience = () => {
+            if (window.innerWidth <= 768) {
+                // Add smooth scrolling behavior
+                document.documentElement.style.scrollBehavior = 'smooth';
+                
+                // Increase touch targets for better mobile interactivity
+                const interactiveElements = document.querySelectorAll('a, button, .diary, .wish-item');
+                interactiveElements.forEach(el => {
+                    if (el.classList.contains('diary') || el.classList.contains('wish-item')) {
+                        return; // Skip elements that already have sufficient size
+                    }
+                    
+                    const computedStyle = window.getComputedStyle(el);
+                    const currentPadding = parseInt(computedStyle.paddingTop) + parseInt(computedStyle.paddingBottom);
+                    
+                    if (currentPadding < 30 && el.offsetHeight < 44) {
+                        el.style.padding = el.classList.contains('hero-btn') ? '' : '15px';
+                    }
+                });
+            }
+        };
+        
+        // Call on load and resize
+        window.addEventListener('load', enhanceMobileExperience);
+        window.addEventListener('resize', enhanceMobileExperience);
+        
+        // Scroll Progress Bar
+        const scrollProgress = document.getElementById('scrollProgress');
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            scrollProgress.style.width = scrolled + '%';
+        });
+    </script>
+    
+    <!-- Diary Section HTML -->
+    <section class="section diary-section" id="diary">
+        <div class="container">
+            <div class="diary-header">
+                <h2 class="diary-title">My Heart's Diary</h2>
+                <p class="diary-description">Click on the diary to open it and read some heartfelt messages and prayers.</p>
+            </div>
+            <div class="diary-container">
+                <div class="diary" id="diary-book">
+                    <!-- Diary Cover -->
+                    <div class="diary-cover">
+                        <div class="diary-hearts">
+                            <div class="diary-heart">❤️</div>
+                            <div class="diary-heart">💖</div>
+                            <div class="diary-heart">💗</div>
+                            <div class="diary-heart">💓</div>
+                            <div class="diary-heart">💕</div>
+                            <div class="diary-heart">💘</div>
+                        </div>
+                        <h2 class="diary-cover-title">Sweet Messages</h2>
+                        <p class="diary-cover-subtitle">Click to open</p>
+                        <div class="diary-ribbon">
+                            <div class="diary-ribbon-content">For You</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Diary Pages -->
+                    <div class="diary-pages">
+                        <!-- Page 1 -->
+                        <div class="diary-page active" data-page="1">
+                            <div class="diary-page-content">
+                                <h3 class="diary-page-title">Blessing from Allah</h3>
+                                <p class="diary-page-quote">
+                                    "May Allah bless you with happiness that radiates from within and light that guides you through every darkness."
+                                </p>
+                                <p class="diary-page-text">
+                                    أَضْحَكَ اللهُ سِنَّكَ
+                                </p>
+                                <p class="diary-page-text">
+                                    "May Allah make you always smile."
+                                </p>
+                            </div>
+                            <div class="diary-page-number">1</div>
+                        </div>
+                        
+                        <!-- Page 2 -->
+                        <div class="diary-page" data-page="2">
+                            <div class="diary-page-content">
+                                <h3 class="diary-page-title">Blessing from Allah</h3>
+                                <p class="diary-page-quote">
+                                    "May Allah grant you good health, peace of mind, and success in all your endeavors."
+                                </p>
+                                <p class="diary-page-text">
+                                    حَفِظَكَ اللهُ وَرَعَاكَ
+                                </p>
+                                <p class="diary-page-text">
+                                    "May Allah protect you and take care of you."
+                                </p>
+                            </div>
+                            <div class="diary-page-number">2</div>
+                        </div>
+                        
+                        <!-- Page 3 -->
+                        <div class="diary-page" data-page="3">
+                            <div class="diary-page-content">
+                                <h3 class="diary-page-title">Blessing from Allah</h3>
+                                <p class="diary-page-quote">
+                                    "May Allah place barakah in your life, love in your heart, and light in your path."
+                                </p>
+                                <p class="diary-page-text">
+                                    بَارَكَ اللهُ فِيكِ وَجَعَلَكِ مِنْ أَهْلِ الْجَنَّةِ
+                                </p>
+                                <p class="diary-page-text">
+                                    "May Allah bless you and make you among the people of Paradise."
+                                </p>
+                            </div>
+                            <div class="diary-page-number">3</div>
+                        </div>
+                        
+                        <!-- Page 4 -->
+                        <div class="diary-page" data-page="4">
+                            <div class="diary-page-content">
+                                <h3 class="diary-page-title">Blessing from Allah</h3>
+                                <p class="diary-page-quote">
+                                    "May Allah make your birthday a gateway to a life filled with His mercy, protection, and infinite blessings."
+                                </p>
+                                <p class="diary-page-text">
+                                    أَسْعَدَكِ اللهُ فِي الدُّنْيَا وَالْآخِرَةِ
+                                </p>
+                                <p class="diary-page-text">
+                                    "May Allah grant you happiness in this world and the Hereafter."
+                                </p>
+                                <p class="diary-page-signature">Ameen</p>
+                            </div>
+                            <div class="diary-page-number">4</div>
+                        </div>
+                        
+                        <!-- Diary Navigation -->
+                        <div class="diary-nav">
+                            <div class="diary-nav-btn prev-page">◀</div>
+                            <div class="diary-nav-btn next-page">▶</div>
+                        </div>
+                        
+                        <!-- Close Button -->
+                        <div class="diary-close">✕</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // Diary Functionality
+        const diary = document.getElementById('diary-book');
+        const diaryPages = document.querySelectorAll('.diary-page');
+        const prevPageBtn = document.querySelector('.prev-page');
+        const nextPageBtn = document.querySelector('.next-page');
+        const closeBtn = document.querySelector('.diary-close');
+        let currentPage = 1;
+        
+        // Open/Close Diary
+        diary.addEventListener('click', function(e) {
+            // Don't toggle if navigation buttons are clicked
+            if (e.target.classList.contains('diary-nav-btn') || 
+                e.target.classList.contains('diary-close')) {
+                return;
+            }
+            
+            if (!this.classList.contains('open')) {
+                this.classList.add('open');
+            }
+        });
+        
+        closeBtn.addEventListener('click', function() {
+            diary.classList.remove('open');
+        });
+        
+        // Navigate Pages
+        function showPage(pageNum) {
+            diaryPages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            const activePage = document.querySelector(`.diary-page[data-page="${pageNum}"]`);
+            if (activePage) {
+                activePage.classList.add('active');
+                currentPage = pageNum;
+            }
+        }
+        
+        prevPageBtn.addEventListener('click', function() {
+            if (currentPage > 1) {
+                showPage(currentPage - 1);
+            }
+        });
+        
+        nextPageBtn.addEventListener('click', function() {
+            if (currentPage < diaryPages.length) {
+                showPage(currentPage + 1);
+            }
+        });
+    </script>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-love">Made with ❤️ especially for you</div>
+                <p class="footer-text">Wishing you a wonderful birthday Majesty, and a year filled with happiness and love</p>
+                <p class="footer-text" style="margin-top: 0.5rem; font-weight: 500; color: var(--primary);">GIFTED BY YOUR BESTFRIEND "MISBAH"</p>
+            </div>
+        </div>
+        <div class="dominant-footer">
+            <div class="container">
+                <div class="footer-copyright">Made by Malik Saad 2025. All rights reserved</div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
